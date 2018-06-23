@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Lighter</string>
+    <string name="btnLightOn">ON</string>
+    <string name="btnLightOff">OFF</string>
+    <string name="btnUnavailable">UNAVAILABLE</string>
+</resources>
