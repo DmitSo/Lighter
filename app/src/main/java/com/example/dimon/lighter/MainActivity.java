@@ -4,7 +4,6 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.support.constraint.ConstraintLayout;
-import android.support.constraint.Constraints;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,13 +11,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.security.Policy;
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-
-    String debugTag = "LighterDebugTag";
+    public static final String DEBUG_TAG = "LighterDebugTag";
 
     android.hardware.Camera camera;
     android.hardware.Camera.Parameters parameters;
@@ -32,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        isOn = false;
     }
 
     @Override
@@ -50,14 +49,14 @@ public class MainActivity extends AppCompatActivity {
                 camera = Camera.open();
             }
             catch (Exception exc){
-                Log.d(debugTag, "At camera open action: " +
+                Log.d(DEBUG_TAG, "At camera open action: " +
                         exc.getMessage() + "\nStacktrace: " + exc.getStackTrace());
-                Toast.makeText(getApplicationContext(),"At camera open action: " +
-                        exc.getMessage(), Toast.LENGTH_LONG).show();
                 isFlashlightAvailable = false;
                 notifyCameraUnavailable();
             }
             if(isFlashlightAvailable) {
+                setFlashlightState(isOn);
+                setFormContent(isOn);
                 switchButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -161,8 +160,9 @@ public class MainActivity extends AppCompatActivity {
         if(isOn)
         {
             isOn = false;
-            setFormContent(isOn);
+            setFormContent(false);
         }
         releaseCamera();
     }
 }
+
